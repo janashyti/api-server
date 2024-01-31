@@ -1,18 +1,20 @@
-const express = require('express')
-const app = express()
+const express = require('express') 
+const cors = require('cors'); 
+const userRouter = require('./routers/user') 
 
-// Set port to the PORT environment variable (if it is defined), 
-// otherwise set it to 3000
-const port = process.env.PORT || 3000
+const app = express() 
 
-// Set up a default route ('') and return 'Hello World!' in the 
-// response when requests are received
-app.get('', (req, res) => {
-    res.send('Hello World! Jana')
-})
+app.use(cors()) 
+app.use(function (req, res, next) { 
+    res.header("Access-Control-Allow-Origin", "*"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
+    next(); 
+}); 
 
-// Configure the server to listen for connections on the port. 
-// Print to the console when ready for connections
-app.listen(port, () => {
-    console.log('Server is up on port ' + port)
+app.use(express.json()) 
+app.use(userRouter) 
+
+const port = process.env.PORT || 3000 
+app.listen(port, () => { 
+    console.log('Server is up on port ' + port) 
 })
