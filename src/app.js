@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors'); 
 const userRouter = require('./routers/user') 
 const studyGroupRouter = require('./routers/studyGroup') 
-
+const notificationRouter = require('./routers/notification')
 const app = express() 
 
 app.use(cors()) 
@@ -14,7 +14,8 @@ app.use(function (req, res, next) {
 
 app.use(express.json()) 
 app.use(userRouter) 
-app.use(studyGroupRouter) 
+app.use(studyGroupRouter)
+app.use(notificationRouter) 
 
 
 const port = process.env.PORT || 3000 
