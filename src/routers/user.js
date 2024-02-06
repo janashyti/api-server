@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const { sendVerificationEmail } = require('../emails/account.js')
 const express = require('express')
 const User = require('../models/user')
@@ -22,5 +23,19 @@ router.post('/user', async (req, res) => {
       res.status(400).send(error)
     }
   })
+
+  router.get('/user/verification', auth, async (req, res) => {
+    const user = req.user
+    const token = req.token
+
+    console.log(user)
+    console.log(token)
+
+    user.email_verified = true
+    user.save()
+    
+    res.send()
+})
+
 
 module.exports = router
