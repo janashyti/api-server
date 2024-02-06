@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
 const mongoose = require('mongoose') 
@@ -65,6 +66,17 @@ userSchema.methods.toJSON = function() {
   delete userObject.__v
   
   return userObject
+}
+
+userSchema.methods.generateAuthToken = async function () {
+  const user = this
+ 
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JSON_WEB_TOKEN_SECRET)
+
+  user.tokens = user.tokens.concat(token)
+  await user.save()
+
+  return token
 }
 
 
