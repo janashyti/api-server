@@ -16,7 +16,7 @@ const sendVerificationEmail = (toEmail, username, token) => {
     })
 }
 
-const sendOneButtonEmail = ({ to, from, subject, imgURL, firstLine, secondLine, thirdLine, buttonLabel, buttonURL }) => {
+const sendOneButtonEmail = ({ to, from, subject, firstLine, secondLine, thirdLine, buttonLabel, buttonURL }) => {
 
     const mssg = {
         to,
@@ -138,9 +138,6 @@ const sendOneButtonEmail = ({ to, from, subject, imgURL, firstLine, secondLine, 
 
                 <body>
                     <div id="frame">
-                        <img class="image" src=${imgURL}
-                            width="348px" height="273px"
-                            alt="" data-proportionally-constrained="true" data-responsive="false">
                             <main>
                                 <p id="first-line">
                                     ${firstLine}
