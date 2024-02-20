@@ -3,7 +3,7 @@ const express = require('express')
 require('./db/mongoose')
 const cors = require('cors'); 
 const userRouter = require('./routers/user') 
-const studyGroupRouter = require('./routers/studyGroup') 
+const studyGroupRouter = require('./routers/studygroup') 
 const notificationRouter = require('./routers/notification')
 const app = express() 
 
