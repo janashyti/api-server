@@ -11,6 +11,8 @@ router.post('/studygroup', auth, async (req, res) => {
 
     const user = req.user
 
+    console.log(req.body)
+
     try {
         const group = new StudyGroup({
             ...req.body,
