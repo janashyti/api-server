@@ -1,9 +1,7 @@
 const express = require('express')
 const auth = require('../middleware/auth')
 const mongoose = require('mongoose')
-
 const StudyGroup = require('../models/studygroup')
-
 const router = express.Router()
 
 router.post('/studygroup', auth, async (req, res) => {
@@ -122,6 +120,7 @@ router.patch('/studygroup/:id', auth, async (req, res) => {
     }
     }
     catch (e) {
+        console.log(e)
     res.status(500).send('Error finding study group')
     return
     }
@@ -159,6 +158,35 @@ router.patch('/studygroup/:id', auth, async (req, res) => {
     console.log(e)
     res.status(500).send("Error saving study group")
     }
+    })
+
+    router.delete('/studygroup/:id', auth, async (req, res) =>{
+        const user = req.user
+        const studyGroupId = req.params.id
+        let studyGroup = null
+        if (!mongoose.isValidObjectId(studyGroupId)){
+            res.status(400).send("Invalid request")
+            return
+        }
+        try{
+            studyGroup = await StudyGroup.findById(studyGroupId)
+
+            if(!studyGroup){
+                res.status(400).send("StudyGroup not found.")
+                return
+            }
+
+            if(!studyGroup.owner.equals(user._id)){
+                res.status(401).send()
+                return
+            }
+            await studyGroup.deleteOne()
+            res.send()
+        }
+        catch (e){
+            console.log(e)
+            res.status(500).send()
+        }
     })
 
 module.exports = router
