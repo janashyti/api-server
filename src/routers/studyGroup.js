@@ -201,8 +201,6 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
         return
     }
     try {
-
-
         studygroup = await StudyGroup.findById(studyGroupID)
         if (!studygroup) {
             res.status(400).send('Invalid study group id')
@@ -214,33 +212,42 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
         res.status(500).send('Error finding study group')
         return
     }
-    
-    if (!requestId.equals(user._id)) {
+
+    if (!requestId == user._id) {
         res.status(401).send("Server is down for maintenance")
         return
     }
-    if (!isValid) {
-        res.status(400).send("One or more invalid properties")
-        return
-    }
+
     try {
-        if (req.query.participants == 'add') {
-            if (studygroup.is_public == true) {
-                studygroup.participants.push(user._id)
+
+        if (req.query.hasOwnProperty('add_or_remove')) {
+            if (req.query.add_or_remove === 'add') {
+                if (studygroup.is_public === true) {
+                    studygroup.participants.push(user._id)
+                    await studygroup.save()
+                    res.send(studygroup)
+                }
+            }
+        }
+       
+            if (req.query.add_or_remove === 'remove') {
+                let participantsArray = studygroup.participants
+                console.log(participantsArray)
+                for (let i = 0; i < participantsArray.length; i++) {
+                    console.log("test")
+                    console.log(user._id)
+                    console.log(participantsArray[i]._id)
+                    let p = participantsArray[i]._id
+
+                    if (user._id = p) {
+                       console.log("1")
+                        participantsArray.splice(i, 1)
+                    }
+                }
                 await studygroup.save()
                 res.send(studygroup)
             }
-        }
-        else if(req.query.participants == 'remove'){
-            let participantsArray = studygroup.participants
-            for(let i = 0; i < participantsArray.length; i++){
-                if(user._id == participantsArray[i]){
-                    participantsArray.splice(i, 1)
-                }
-            }
-            await studygroup.save()
-            res.send(studygroup)
-        }
+        
 
     }
     catch (e) {
