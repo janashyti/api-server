@@ -256,4 +256,5 @@ router.patch('/studygroup/:id/participants', auth, async (req, res) => {
     }
 })
 
+
 module.exports = router

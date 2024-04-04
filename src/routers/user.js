@@ -2,6 +2,8 @@ const auth = require('../middleware/auth')
 const { sendVerificationEmail } = require('../emails/account.js')
 const express = require('express')
 const User = require('../models/user')
+const StudyGroup = require('../models/studygroup')
+const mongoose = require('mongoose')
 
 const router = new express.Router()
 
@@ -76,6 +78,30 @@ router.patch('/user/logout', auth, async (req, res) => {
   catch (e) {
       res.status(500).send()
   }
+})
+
+router.get('/user/:id', auth, async (req, res) => {
+  const user = req.user
+  const studyGroupId = req.query
+  const studyGroup = await StudyGroup.find(studyGroupId)
+  const participants = studyGroup.participants
+  
+  
+  
+  const projection = {
+      email: 1,
+      user_name: 1,
+      school: 1
+  }
+  try {
+      const results = await User.find(participants, projection)
+      res.send(results)
+  } catch (e) {
+      console.log(e)
+      res.status(500).send()
+  }
+
+
 })
 
 module.exports = router
