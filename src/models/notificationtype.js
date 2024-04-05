@@ -1,0 +1,4 @@
+    NOTIFICATIONTYPE = [
+        'Message',
+        'Invitation'
+    ]
