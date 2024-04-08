@@ -2,3 +2,5 @@
         'Message',
         'Invitation'
     ]
+
+    module.exports = NOTIFICATIONTYPE

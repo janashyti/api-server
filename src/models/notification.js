@@ -4,12 +4,12 @@ const NOTIFICATIONTYPE = require('./notificationtype')
 const Schema = mongoose.Schema
 
 const notificationSchema = new Schema({
-    sender: { type: Schema.Types.ObjectId, ref: 'User'},
-    receiver: { type: Schema.Types.ObjectId, ref: 'User'},
-    subject: {type: String},
-    body: {type: String},
-    is_read: {type: Boolean},
-    notification_type: {enum: NOTIFICATIONTYPE},
+    sender: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+    receiver: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+    subject: {type: String, required: true},
+    body: {type: String, required: true},
+    is_read: {type: Boolean, required: true},
+    notification_type: {type: String, enum: NOTIFICATIONTYPE, required: true},
     study: { type: Schema.Types.ObjectId, ref: 'StudyGroup'}
 })
 
