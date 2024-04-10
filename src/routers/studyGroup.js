@@ -49,7 +49,7 @@ router.get('/studygroups', auth, async (req, res) => {
         $or: [
             { is_public: true },
             { owner: req.user._id },
-            {participants: req.user._id}
+            {is_public: false}
         ]
     })
 
