@@ -104,19 +104,19 @@ router.get('/user/:id', auth, async (req, res) => {
   participants = studygroup.participants
   console.log("participants: " + participants)
   console.log("studygroup" + studygroup)
-  let owner = studygroup.owner
-  results[0] = owner
+  
 
   try {
     const results = []
-    
+    let owner = studygroup.owner
+    results[0] = owner
     for(let i = 1; i < participants.length; i++){
     results[i] = await User.findById(participants[i])
     console.log(results[i])
     delete results[i]._id
     }
     
-    console.log(results)
+    console.log("results: " + results)
     res.send(results)
   } catch (e) {
     console.log(e)
