@@ -122,4 +122,41 @@ router.get('/user/:id', auth, async (req, res) => {
 
 })
 
+router.get('/user/owner/:id', auth, async (req, res) => {
+  const ownerID = req.params.id
+  let owner = undefined
+  
+  if (!mongoose.isValidObjectId(ownerID)) {
+    res.status(400).send("Invalid object id")
+    return
+  }
+  try {
+    owner = await User.findById(ownerID)
+    if (!owner) {
+      res.status(400).send('Invalid study group id')
+      return
+    }
+  }
+  catch (e) {
+    console.log(e)
+    res.status(500).send('Error finding study group')
+    return
+  }
+  
+  let groupowner = owner
+  console.log(groupowner)
+
+  try {
+    const results = groupowner
+    
+    console.log(results)
+    res.send(results)
+  } catch (e) {
+    console.log(e)
+    res.status(500).send()
+  }
+
+
+})
+
 module.exports = router
