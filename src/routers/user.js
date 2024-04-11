@@ -83,7 +83,6 @@ router.patch('/user/logout', auth, async (req, res) => {
 router.get('/user/:id', auth, async (req, res) => {
   const studyGroupID = req.params.id
   let studygroup = undefined
-  let ownerID = req.body
   if (!mongoose.isValidObjectId(studyGroupID)) {
     res.status(400).send("Invalid object id")
     return
@@ -108,8 +107,7 @@ router.get('/user/:id', auth, async (req, res) => {
 
   try {
     const results = []
-    results[0] = await User.findById(ownerID)
-    for(let i = 1; i < participants.length; i++){
+    for(let i = 0; i < participants.length; i++){
     results[i] = await User.findById(participants[i])
     console.log(results[i])
     delete results[i]._id
