@@ -19,7 +19,7 @@ router.post('/notification', auth, async (req, res) => {
         await notification.save()
         let arr = []
         arr = receiver.notifications
-        arr[0] = notification.id
+        arr.push(notification.id) 
         receiver.notifications = arr
         await receiver.save()
         console.log(receiver.notifications)
